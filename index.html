@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ToDo List</title>
+        <link rel="stylesheet" href="style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <h1>To-Do List</h1>
+        <div style="text-align: center;"> 
+            <input type="text" id="task">
+            <button onclick="add()" id="add">ADD</button>
+        </div>
+        <table id="tasklist">
+        </table>
+        </div>
+    </body>
+    <script>
+        function add(){
+            var input = document.getElementById("task").value;
+
+            var tasklist = document.getElementById("tasklist");
+            var newtask = document.createElement("tr");
+            newtask.innerHTML=`<td><h2>${input}</h2><input value="${input}" id="task" style="display: none"></td>
+                                <td>
+                                    <button id="correct" onclick="correct(event)" style="display: none"><img src="check-mark.png"></button>
+                                    <button id="edit" onclick="edit(event)"><img src="edit.png"></button></td>
+                                <td><button id="delete" onclick="del(event)"><img src="trash.png"></button></td>`;
+            tasklist.appendChild(newtask);
+
+            document.getElementById("task").value = "";
+        }
+        function del(event){
+                event.target.parentElement.parentNode.parentNode.remove();
+        }
+        function edit(event){
+               let td_edit= event.target.parentElement.parentNode;
+               let td_task = td_edit.previousElementSibling;
+               let td_input = td_task.lastElementChild;
+               let td_h3 = td_task.firstElementChild;
+               
+               td_input.style.display = "inline";
+               td_input.focus();
+               td_h3.style.display = "none";
+
+               td_edit.firstElementChild.style.display = "inline"; // correct buuton will display
+               td_edit.lastElementChild.style.display = "none"; //edit button is hidden
+        }
+        function correct(event){
+            let td_correct= event.target.parentElement.parentNode;
+            let td_task = td_correct.previousElementSibling;
+            let td_input = td_task.lastElementChild;
+            let td_h3 = td_task.firstElementChild;
+
+            td_h3.innerHTML = td_input.value;
+
+            td_input.style.display = "none";
+            td_h3.style.display = "inline";
+
+            td_correct.firstElementChild.style.display = "none"; // correct button will hide
+            td_correct.lastElementChild.style.display = "inline"; // edit button will display
+
+        }
+
+    </script>
+</html>
